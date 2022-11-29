@@ -19,3 +19,16 @@ mysql> SHOW DATABASES;
 8 rows in set (0.35 sec)
 
 
+UC2 :Ability to create a employee payroll table in the payroll service database to manage employee payrolls
+
+mysql> USE payroll_service;
+Database changed
+
+mysql> CREATE TABLE employee_payroll(
+    -> id INT unsigned NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(150) NOT NULL,
+    -> salary Double NOT NULL,
+    -> start DATE NOT NULL,
+    -> PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected (0.22 sec)
