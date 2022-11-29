@@ -32,3 +32,12 @@ mysql> CREATE TABLE employee_payroll(
     -> PRIMARY KEY(id)
     -> );
 Query OK, 0 rows affected (0.22 sec)
+
+UC3 :Ability to create employee payroll data in the payroll service database as part of CRUD Operation - Use payroll_service database
+
+mysql> INSERT INTO employee_payroll(name,salary,start)VALUES
+    -> ('John',50000.00,'2019-03-20'),
+    -> ('Bill',20000.00,'2021-10-25'),
+    -> ('Charlie',60000.00,'2020-11-10');
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
