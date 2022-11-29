@@ -65,3 +65,25 @@ mysql> SELECT * FROM employee_payroll
 |  1 | John |  50000 | 2019-03-20 |
 +----+------+--------+------------+
 1 row in set (0.10 sec)
+
+mysql>  SELECT * FROM employee_payroll
+    -> WHERE start BETWEEN CAST('2019-01-01' AS DATE) AND DATE(NOW());
++----+---------+--------+------------+
+| id | name    | salary | start      |
++----+---------+--------+------------+
+|  1 | John    |  50000 | 2019-03-20 |
+|  2 | Bill    |  20000 | 2021-10-25 |
+|  3 | Charlie |  60000 | 2020-11-10 |
++----+---------+--------+------------+
+3 rows in set (0.14 sec)
+
+UC6 :Ability to add Gender to Employee Payroll Table and Update the Rows to reflect the correct Employee Gender
+
+mysql> ALTER TABLE employee_payroll ADD gender VARCHAR(1) After name;
+Query OK, 0 rows affected (0.42 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE employee_payroll set gender =
+    -> 'M' where name = 'Bill' or name ='Charlie';
+Query OK, 2 rows affected (0.08 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
