@@ -87,3 +87,64 @@ mysql> UPDATE employee_payroll set gender =
     -> 'M' where name = 'Bill' or name ='Charlie';
 Query OK, 2 rows affected (0.08 sec)
 Rows matched: 2  Changed: 2  Warnings: 0
+
+UC7 :Ability to find sum, average, min, max and number of male and female employees
+
+mysql> SELECT SUM(salary) FROM employee_payroll
+    -> WHERE gender = 'F' GROUP BY gender;
++-------------+
+| SUM(salary) |
++-------------+
+|       60000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(salary) FROM employee_payroll
+    ->  WHERE gender = 'M' GROUP BY gender;
++-------------+
+| SUM(salary) |
++-------------+
+|       70000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(salary) FROM employee_payroll
+    -> GROUP BY gender;
++-------------+
+| AVG(salary) |
++-------------+
+|       35000 |
+|       60000 |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT MIN(salary) FROM employee_payroll
+    ->  GROUP BY gender;
++-------------+
+| MIN(salary) |
++-------------+
+|       20000 |
+|       60000 |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT MAX(salary) FROM employee_payroll
+    -> GROUP BY gender;
++-------------+
+| MAX(salary) |
++-------------+
+|       50000 |
+|       60000 |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(id) FROM employee_payroll
+    -> GROUP BY gender;
++-----------+
+| COUNT(id) |
++-----------+
+|         2 |
+|         1 |
++-----------+
+2 rows in set (0.00 sec)
+
