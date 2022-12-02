@@ -338,3 +338,67 @@ mysql> CREATE TABLE emp_dept_relations (
     -> FOREIGN KEY (dept_id) REFERENCES department(dept_id)
     -> );
 Query OK, 0 rows affected (0.35 sec)
+
+
+UC12 Ensure all retrieve queries done especially in UC 4, UC 5 and UC 7 are working with new
+table structure
+
+mysql> SELECT e.emp_name, p.basic_pay FROM
+    -> employee e JOIN payroll p ON e.emp_id=p.emp_id
+    -> WHERE e.emp_name='Bill';
++----------+-----------+
+| emp_name | basic_pay |
++----------+-----------+
+| Bill     |     50000 |
++----------+-----------+
+1 row in set (0.19 sec)
+
+mysql> SELECT gender,COUNT(emp_name) FROM employee
+    -> GROUP BY GENDER;
++--------+-----------------+
+| gender | COUNT(emp_name) |
++--------+-----------------+
+| M      |               2 |
+| F      |               2 |
++--------+-----------------+
+2 rows in set (0.25 sec)
+
+mysql> SELECT SUM(basic_pay)FROM
+    -> employee e JOIN payroll p ON e.emp_id=p.emp_id
+    ->  WHERE e.gender='F';
++----------------+
+| SUM(basic_pay) |
++----------------+
+|          60000 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(basic_pay)FROM
+    -> employee e JOIN payroll p ON e.emp_id=p.emp_id
+    ->  WHERE e.gender='F';
++----------------+
+| MAX(basic_pay) |
++----------------+
+|          60000 |
++----------------+
+1 row in set (0.11 sec)
+
+mysql> SELECT MIN(basic_pay)FROM
+    -> employee e JOIN payroll p ON e.emp_id=p.emp_id
+    -> WHERE e.gender='F';
++----------------+
+| MIN(basic_pay) |
++----------------+
+|          60000 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(basic_pay)FROM
+    -> employee e JOIN payroll p ON e.emp_id=p.emp_id
+    -> WHERE e.gender='F';
++----------------+
+| AVG(basic_pay) |
++----------------+
+|          60000 |
++----------------+
+1 row in set (0.00 sec)
