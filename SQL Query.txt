@@ -223,3 +223,118 @@ mysql> SELECT * FROM employee_payroll;
 |  4 | Terisa  | F      | 400000 | 2020-05-15 | 9876543210 | Dhule   | Marketing  |         0 |          0 |           0 |          0 |       0 |
 +----+---------+--------+--------+------------+------------+---------+------------+-----------+------------+-------------+------------+---------+
 4 rows in set (0.00 sec)
+
+
+UC11 Implement the ER Diagram into Payroll Service DB
+
+mysql> CREATE TABLE company(
+    -> company_id INT UNSIGNED AUTO_INCREMENT,
+    -> company_name VARCHAR(50) NOT NULL,
+    -> PRIMARY KEY (company_id)
+    -> );
+Query OK, 0 rows affected (0.0630 sec)
+
+mysql> INSERT INTO company(company_name) VALUES ('Infosys'),('Wipro');
+Query OK, 2 rows affected (0.30 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM company;
++------------+--------------+
+| company_id | company_name |
++------------+--------------+
+|          1 | Infosys      |
+|          2 | Wipro        |
++------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE employee(
+    -> company_id INT UNSIGNED AUTO_INCREMENT,
+    -> emp_id INT UNSIGNED NOT NULL,
+    -> emp_name VARCHAR(50) NOT NULL,
+    -> phone VARCHAR(20) NOT NULL,
+    -> address VARCHAR(100) NOT NULL DEFAULT 'Dhule',
+    -> gender VARCHAR(20) NOT NULL,
+    -> PRIMARY KEY(emp_id),
+    -> FOREIGN KEY(company_id) REFERENCES company(company_id)
+    -> );
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> INSERT INTO employee VALUES
+    -> (1,101,'John','8462215981','Dhule', 'M'),
+    -> (2,112,'Terisa','9876567890','Jalgaon', 'F')
+    -> (1,103,'Terisa','8765432890','Nashik', 'F'),
+    -> (2,1000,'Bill','9876567890','Jalgaon', 'M');
+Query OK, 4 rows affected (0.60 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employee;
++------------+--------+----------+------------+---------+--------+
+| company_id | emp_id | emp_name | phone      | address | gender |
++------------+--------+----------+------------+---------+--------+
+|          1 |    101 | John     | 8462215981 | Dhule   | M      |
+|          1 |    103 | Terisa   | 8765432890 | Nashik  | F      |
+|          2 |    112 | Terisa   | 9876567890 | Jalgaon | F      |
+|          2 |   1000 | Bill     | 9876567890 | Jalgaon | M      |
++------------+--------+----------+------------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE payroll(
+    -> emp_id INT UNSIGNED NOT NULL,
+    -> basic_pay DOUBLE DEFAULT 0 NOT NULL,
+    -> deductions DOUBLE DEFAULT 0 NOT NULL,
+    -> texable_pay DOUBLE DEFAULT 0 NOT NULL,
+    -> income_tax DOUBLE DEFAULT 0 NOT NULL,
+    -> net_pay DOUBLE DEFAULT 0 NOT NULL,
+    -> FOREIGN KEY(emp_id) REFERENCES employee(emp_id)
+    -> );
+Query OK, 0 rows affected (0.40 sec)
+
+mysql>  INSERT INTO payroll(emp_id,basic_pay) VALUES(101,20000.0),
+    -> (103,60000.0),
+    -> (112,40000.0),
+    -> (1000,80000.0);
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM payroll;
++--------+-----------+------------+-------------+------------+---------+
+| emp_id | basic_pay | deductions | texable_pay | income_tax | net_pay |
++--------+-----------+------------+-------------+------------+---------+
+|    101 |     20000 |          0 |           0 |          0 |       0 |
+|    102 |     40000 |          0 |           0 |          0 |       0 |
+|    103 |     60000 |          0 |           0 |          0 |       0 |
+|   1000 |     50000 |          0 |           0 |          0 |       0 |
++--------+-----------+------------+-------------+------------+---------+
+4 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE department(
+    -> dept_id INT NOT NULL AUTO_INCREMENT,
+    -> dept_name VARCHAR(50) NOT NULL,
+    -> PRIMARY KEY(dept_id)
+    -> );
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> INSERT INTO department(dept_name) VALUES ('Sales'),('Marketing'),('HR');
+Query OK, 3 rows affected (0.15 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM department;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | Sales     |
+|       2 | Marketing |
+|       3 | HR        |
++---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE emp_dept_relations (
+    -> dept_id INT NOT NULL AUTO_INCREMENT,
+    -> emp_id INT UNSIGNED NOT NULL,
+    -> PRIMARY KEY (emp_id,dept_id),
+    -> FOREIGN KEY (emp_id) REFERENCES employee(emp_id),
+    -> FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+    -> );
+Query OK, 0 rows affected (0.35 sec)
